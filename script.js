@@ -16,6 +16,12 @@ fileInput.addEventListener("change", function (e) {
     const gamblingTypeIndex = headerRow.findIndex(
       (col) => col.trim() === "GamblingType"
     );
+    const programNameIndex = headerRow.findIndex(
+      (col) => col.trim() === "ProgramName"
+    );
+    const DateIndex = headerRow.findIndex((col) => col.trim() === "Date");
+    const TimeIndex = headerRow.findIndex((col) => col.trim() === "LocalTime");
+
     const walletIndex = headerRow.findIndex((col) => col.trim() === "Wallet");
     const phaseIndex = headerRow.findIndex((col) => col.trim() === "Phase");
 
@@ -53,6 +59,9 @@ fileInput.addEventListener("change", function (e) {
     let maxWalletInTrial = null;
     let currentPhase = null;
     let currentGamblingType = null;
+    let programNameFromCSV = "";
+    let Date = "";
+    let Time = "";
 
     for (let i = 1; i < rows.length; i++) {
       const row = rows[i];
@@ -62,7 +71,11 @@ fileInput.addEventListener("change", function (e) {
         : "";
       const walletValue = parseFloat(row[walletIndex]) || 0;
       const phase = row[phaseIndex];
-
+      if (!programNameFromCSV) {
+        programNameFromCSV = row[programNameIndex];
+        Date = row[DateIndex];
+        Time = row[TimeIndex];
+      }
       if (currentTrial !== trialNum) {
         if (currentTrial !== null && currentGamblingType === "EffortTask") {
           const trialKey = `${currentPhase}-${currentTrial}`;
@@ -125,15 +138,20 @@ fileInput.addEventListener("change", function (e) {
         csvContent += `${summary.phase},${summary.trialNumber},${summary.gamblingType},${summary.maxGained}\n`;
       });
     }
+    const [hourStr, minuteStr] = Time.split("_");
+    const hour24 = parseInt(hourStr, 10);
 
-    const programName = document
-      .getElementById("Text")
-      .value.replace(/\s+/g, "");
+    const period = hour24 >= 12 ? "PM" : "AM";
+    const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
+    Date = Date.replaceAll("_", "-");
+    const americanTime = `${hour12}-${minuteStr}${period}`;
     const blob = new Blob([csvContent], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${programName || "Program"}_TrialSummary.csv`;
+    a.download = `${
+      programNameFromCSV || "Program"
+    }_${Date}_${americanTime}.csv`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
