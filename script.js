@@ -50,7 +50,6 @@ fileInput.addEventListener("change", function (e) {
       `Columns found - Phase: ${phaseIndex}, TrialNumber: ${trialNumberIndex}, GamblingType: ${gamblingTypeIndex}, Wallet: ${walletIndex}`
     );
 
-    let summaryRows = [headerRow];
     let effortTaskSummaries = [];
     let processedEffortTrials = new Set();
     let currentTrial = null;
@@ -62,6 +61,35 @@ fileInput.addEventListener("change", function (e) {
     let programNameFromCSV = "";
     let Date = "";
     let Time = "";
+
+    const KeepHeaders = [
+      "Phase",
+      "TrialNumber",
+      "TrialTime",
+      "Outcome",
+      "GamblingType",
+      "CurrentBet",
+      "CurrentPayout",
+      "Wallet",
+      "Parlay1_Team",
+      "Parlay1_Odds",
+      "Parlay2_Team",
+      "Parlay2_Odds",
+      "Parlay3_Team",
+      "Parlay3_Odds",
+      "Parlay4_Team",
+      "Parlay4_Odds",
+      "Parlay5_Team",
+      "Parlay5_Odds",
+      "Total_Odds",
+    ];
+
+    const headerIndexMap = {};
+    headerRow.forEach((col, i) => {
+      headerIndexMap[col.trim()] = i;
+    });
+
+    let summaryRows = [KeepHeaders];
 
     for (let i = 1; i < rows.length; i++) {
       const row = rows[i];
@@ -94,7 +122,9 @@ fileInput.addEventListener("change", function (e) {
           lastRowOfTrial &&
           currentGamblingType !== "EffortTask"
         ) {
-          summaryRows.push(lastRowOfTrial);
+          summaryRows.push(
+            KeepHeaders.map((h) => lastRowOfTrial[headerIndexMap[h]])
+          );
         }
 
         currentTrial = trialNum;
@@ -123,7 +153,9 @@ fileInput.addEventListener("change", function (e) {
         });
       }
     } else if (lastRowOfTrial && currentGamblingType !== "EffortTask") {
-      summaryRows.push(lastRowOfTrial);
+      summaryRows.push(
+        KeepHeaders.map((h) => lastRowOfTrial[headerIndexMap[h]])
+      );
     }
 
     console.log(`Found ${summaryRows.length - 1} trial transitions`);
