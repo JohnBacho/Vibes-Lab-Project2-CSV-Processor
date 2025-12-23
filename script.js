@@ -10,13 +10,21 @@ const Names = [
 ];
 const RandomName = Names[Math.floor(Math.random() * Names.length)];
 const Greetings = [
-  "Hi there",
+  "Hi 🌸",
+  "Hello ✨",
+  "Hey 😺",
+  "Howdy 🤠",
+  "Hey there 🌼",
+  "Well hello 🌟",
   "Time",
-  "Have a great day",
-  "What Up",
-  "Hello",
-  "Howdy",
+  "Ahoy ⚓",
+  "Hola 🐾",
+  "Bonjour 🥐",
+  "Ciao 🍦",
+  "Good to see you 😄",
+  "Nice to see you 🌷",
 ];
+
 let RandomGreetings = Greetings[Math.floor(Math.random() * Greetings.length)];
 const hour = new Date().getHours();
 if (hour >= 12 && hour < 18 && RandomGreetings === "Time") {
@@ -26,8 +34,8 @@ if (hour >= 12 && hour < 18 && RandomGreetings === "Time") {
 } else if (hour >= 0 && hour < 12 && RandomGreetings === "Time") {
   RandomGreetings = "Good Morning";
 }
-if (Math.random() < 0.05) {
-  document.getElementById("NameText").textContent = `What Up Twin!`;
+if (Math.random() < 0.025) {
+  document.getElementById("NameText").textContent = `Hi twin! 😎`;
 } else {
   document.getElementById(
     "NameText"
