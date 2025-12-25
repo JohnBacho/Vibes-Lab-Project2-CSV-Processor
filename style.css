@@ -91,7 +91,7 @@ label {
 }
 
 .container::after {
-  content: "🌸";
+  content: "🪻";
   bottom: 10px;
   right: 10px;
   animation: rotate 10s linear infinite reverse;
