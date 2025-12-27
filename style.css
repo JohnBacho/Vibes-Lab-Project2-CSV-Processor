@@ -33,7 +33,7 @@ body {
   height: auto;
   margin-bottom: 20px;
   border-radius: 20px;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
 }
 
 h1 {
@@ -104,4 +104,19 @@ label {
   100% {
     transform: rotate(360deg);
   }
+}
+
+#NameText {
+  display: inline-block;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-out {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-in {
+  opacity: 1;
+  transform: translateY(0);
 }

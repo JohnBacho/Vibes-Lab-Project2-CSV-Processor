@@ -4,11 +4,11 @@ const Names = [
   "Olivia",
   "Marissa",
   "Bert",
-  "Dr. Thomas",
   "Jace",
   "John",
+  "Corey",
+  "Dr. Thomas",
 ];
-const RandomName = Names[Math.floor(Math.random() * Names.length)];
 const Greetings = [
   "Hi 🌸",
   "Hello ✨",
@@ -25,22 +25,38 @@ const Greetings = [
   "Nice to see you 🌷",
 ];
 
-let RandomGreetings = Greetings[Math.floor(Math.random() * Greetings.length)];
-const hour = new Date().getHours();
-if (hour >= 12 && hour < 18 && RandomGreetings === "Time") {
-  RandomGreetings = "Good Afternoon";
-} else if (hour >= 18 && hour < 24 && RandomGreetings === "Time") {
-  RandomGreetings = "Good Evening";
-} else if (hour >= 0 && hour < 12 && RandomGreetings === "Time") {
-  RandomGreetings = "Good Morning";
+let index = 0;
+const nameText = document.getElementById("NameText");
+
+function updateGreeting() {
+  nameText.classList.add("fade-out");
+  nameText.classList.remove("fade-in");
+
+  setTimeout(() => {
+    const name = Names[index % Names.length];
+    let greeting = Greetings[Math.floor(Math.random() * Greetings.length)];
+
+    if (greeting === "Time") {
+      const hour = new Date().getHours();
+      greeting =
+        hour < 12
+          ? "Good Morning"
+          : hour < 18
+          ? "Good Afternoon"
+          : "Good Evening";
+    }
+
+    nameText.textContent = `${greeting} ${name}!`;
+
+    nameText.classList.remove("fade-out");
+    nameText.classList.add("fade-in");
+
+    index++;
+  }, 500);
 }
-if (Math.random() < 0.025) {
-  document.getElementById("NameText").textContent = `Hi twin! 😎`;
-} else {
-  document.getElementById(
-    "NameText"
-  ).textContent = `${RandomGreetings} ${RandomName}!`;
-}
+
+updateGreeting();
+setInterval(updateGreeting, 3500);
 
 const fileInput = document.getElementById("csvFile");
 fileInput.addEventListener("change", function (e) {
