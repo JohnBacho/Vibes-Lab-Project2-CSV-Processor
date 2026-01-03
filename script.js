@@ -215,7 +215,11 @@ fileInput.addEventListener("change", function (e) {
           maxGained: maxGained.toFixed(0),
         });
       }
-    } else if (lastRowOfTrial && currentGamblingType !== "EffortTask") {
+    } else if (
+      lastRowOfTrial &&
+      currentGamblingType !== "EffortTask" &&
+      currentTrial != 16
+    ) {
       summaryRows.push(
         KeepHeaders.map((h) => lastRowOfTrial[headerIndexMap[h]])
       );
